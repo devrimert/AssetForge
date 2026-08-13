@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AssetForge.Core/AssetForge.Core.csproj" />
+    <Project Path="src/AssetForge.Service/AssetForge.Service.csproj" />
+    <Project Path="src/AssetForge.Tools.Wpf/AssetForge.Tools.Wpf.csproj" />
+    <Project Path="src/AssetForge.Worker/AssetForge.Worker.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AssetForge.Core.Tests/AssetForge.Core.Tests.csproj" />
+  </Folder>
+</Solution>
