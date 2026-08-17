@@ -1,4 +1,4 @@
-﻿using AssetForge.Core.Contracts;
+using AssetForge.Core.Contracts;
 
 namespace AssetForge.Core.Queues
 {
@@ -22,7 +22,7 @@ namespace AssetForge.Core.Queues
         /// </summary>
         ValueTask<int> GetDepthAsync (CancellationToken cancellationToken = default);
         /// <summary>
-        /// Signals that no more jobs will be added to the queue. Consumer finish the remaining items and then their <see cref="ReadAllAsync"/> loop ends."/>
+        /// Signals that no more jobs will be added to the queue. Consumer finish the remaining items and then their <see cref="ReadAllAsync"/> loop ends.
         /// </summary>
         void CompleteAdding();
     }
