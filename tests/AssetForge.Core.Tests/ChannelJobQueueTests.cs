@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 using AssetForge.Core.Contracts;
 using AssetForge.Core.Queues;
 
@@ -29,6 +29,7 @@ public class ChannelJobQueueTests
     [Fact]
     public async Task Enqueue_waits_while_the_queue_is_full()
     {
+        //Correction of backpressure
         var queue = new ChannelJobQueue(capacity: 1);
         await queue.EnqueueAsync(NewJob());
 
