@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: assetforge-config
+data:
+  #these land in the pod as environment variables. '__' is .Net's configuration seperator.
+  Pipeline__WorkerCount: "8"
+  Pipeline__QueueCapacity: "100"
+  Pipeline__JobTimeout: "00:00:30"
+  Pipeline__EnqueueTimeout: "00:00:02"
+  Pipeline__OutputDirectory: "/data/output"

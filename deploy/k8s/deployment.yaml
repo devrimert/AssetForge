@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: assetforge-service
+  labels:
+    app: assetforge
+spec:
+  replicas: 1
+
+  # How the Deployment finds the pods it owns. Must match the pod labels below.
+  selector:
+    matchLabels:
+      app: assetforge
+
+  template:
+    metadata:
+      labels:
+        app: assetforge
+    spec:
+      # Upper bound on the drain. SIGTERM starts it; after this the pod is killed
+      terminationGracePeriodSeconds: 60
+
+      containers:
+        - name: service
+          image: assetforge-service:dev
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 8080
+  
+          envFrom:
+            - configMapRef:
+                name: assetforge-config
+
+          resources:
+            # What the scheduler reserves when placing this pod.
+            requests:
+              cpu: "250m"
+              memory: "128Mi"
+            # Hard ceiling. Exceeding memory gets the container killed (OOMKilled), exceeding CPU only throttles it.            
+            limits:
+              cpu: "2"
+              memory: "512Mi"
+
+          # "Is the process alive?" Failing this restarts the pod, so it must not depend on anything downstream.
+          livenessProbe:
+            httpGet:
+              path: /healthz/live
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+
+          # "Should this pod receive traffic?" Failing this only removes it from
+          # the Service, which is what lets a shutting-down pod drain.
+          readinessProbe:
+            httpGet:
+              path: /healthz/ready
+              port: 8080
+            initialDelaySeconds: 2
+            periodSeconds: 5
+            failureThreshold: 1
+
+          volumeMounts:
+            - name: assets
+              mountPath: /data/assets
+              readOnly: true
+            - name: output
+              mountPath: /data/output
+      volumes:
+        # hostPath is a local-development shortcut. A real cluster would use a
+        # PersistentVolumeClaim, since a node's filesystem is not shared and not
+        # durable. Docker Desktop exposes Windows drives under /run/desktop/mnt/host.
+        - name: assets
+          hostPath:
+            path: /run/desktop/mnt/host/c/assetforge/assets
+            type: Directory
+        - name: output
+          hostPath:
+            path: /run/desktop/mnt/host/c/assetforge/output
+            type: DirectoryOrCreate

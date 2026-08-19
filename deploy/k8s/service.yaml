@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: assetforge-service
+spec:
+  # NodePort exposes the service on a fixed port of the node itself, which on
+  # Docker Desktop means localhost. In a cloud cluster this would be a
+  # LoadBalancer or sit behind an Ingress.
+  type: NodePort
+
+  # Any pod carrying this label is an endpoint of this service. Pods come and
+  # go; the service address does not.
+  selector:
+    app: assetforge
+
+  ports:
+    - port: 80          # the service's own port
+      targetPort: 8080  # the port inside the container
+      nodePort: 30080   # reachable at localhost:30080
