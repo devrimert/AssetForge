@@ -1,4 +1,16 @@
 <Solution>
+  <Folder Name="/deploy/" />
+  <Folder Name="/deploy/docker/">
+    <File Path="deploy/docker/Dockerfile" />
+  </Folder>
+  <Folder Name="/deploy/k8s/">
+    <File Path="deploy/k8s/configmap.yaml" />
+    <File Path="deploy/k8s/deployment.yaml" />
+    <File Path="deploy/k8s/service.yaml" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".dockerignore" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/AssetForge.Core/AssetForge.Core.csproj" />
     <Project Path="src/AssetForge.Service/AssetForge.Service.csproj" />
