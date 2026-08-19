@@ -21,5 +21,14 @@ namespace AssetForge.Core.Pipeline
         /// Timeout for processing a job. Protects the pool from an asset that makes processor hang forever.
         /// </summary>
         public TimeSpan JobTimeout { get; set; } = TimeSpan.FromSeconds(30);
+
+        /// <summary>Where processed output is written. Overridden by configuration in a container.</summary>
+        public string OutputDirectory { get; set; } = "output";
+
+        /// <summary>
+        /// How long an incoming request may wait for a free queue slot before it is
+        /// rejected with 429. Absorbs short bursts without accepting sustained overload.
+        /// </summary>
+        public TimeSpan EnqueueTimeout { get; set; } = TimeSpan.FromSeconds(2);
     }
 }
